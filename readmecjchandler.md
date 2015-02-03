@@ -1,0 +1,1 @@
+Here is a log of stuff that I'm doing on the sensors. I have the arduino reading raw sensor data off of I2C with code. 
