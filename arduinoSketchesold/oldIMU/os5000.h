@@ -1,33 +1,14 @@
-
-
-#ifdef __cplusplus
-  extern "C" {
-    //__attribute__((weak)) omit this as used in _write() in Print.cpp
-  
-    // this function overrides the one of the same name in Print.cpp
-    int _write(int file, char *ptr, int len)
-    {
-        // send chars to zero or more outputs
-        for (int i = 0; i < len; i++)  {
-          #ifdef PRINTF_SERIAL  // see #define at top of file
-            Serial.print(ptr[i]);
-          #endif
-          #ifdef PRINTF_SERIAL1  // see #define at top of file
-            Serial1.print(ptr[i]);
-          #endif
-        }
-        return 0;
-    }
-  } // end extern "C" section
-#endif
-
-
-char formatline[38] = "$C%fP%fR%fT%fMx%fMy%fMz%fAx%fAy%fAz%f";
+#include <ArduinoHardware.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ros.h>
+#include <arvp_msgs/IMU.h>
 
 
 class carlOS5000{
   public:
   arvp_msgs::IMU msg;
+  char format[38] = "$C%fP%fR%fT%fMx%fMy%fMz%fAx%fAy%fAz%f";
   
   bool verifyLine( char line [] ); 
   void interpretSerial( char line[] );
@@ -39,20 +20,16 @@ bool carlOS5000::verifyLine( char line[] ){
  
  int len = strlen(line); 
  char checksum; 
- //int rv = sscanf(line+ (len-4), "*%hhx", &checksum);
- //if(rv != 1){ return false; }
- return true; 
+ int rv = sscanf(line+ (len-4), "*%hhx", &checksum);
+ if(rv != 1){ return false; }
 }; 
 
 void carlOS5000::interpretSerial( char line[] ){
-  sscanf( line , formatline ,&msg.heading , &msg.pitch, &msg.roll, 
-          &msg.temp, &msg.mag[0] , &msg.mag[1] , &msg.mag[2], 
-          &msg.accel[0] , &msg.accel[1] , &msg.accel[2] );
+  sscanf( line , format ,msg.heading , msg.pitch, msg.roll, 
+          msg.temp, msg.mag[0] , msg.mag[1] , msg.mag[2], 
+          msg.accel[0] , msg.accel[1] , msg.accel[2] );
 };
 
-
-
-/*
 enum os5000_result {OS5000_OK, OS5000_INVALID_LEN, OS5000_INVALID_START,
      OS5000_NO_CHECKSUM, OS5000_BAD_CHECKSUM, OS5000_UNKNOWN_ERROR};
      
@@ -140,4 +117,3 @@ char OS5000::calcChecksum(const char *line) {
     cksum ^= *c;
   return cksum;
 }
-*/
