@@ -1,18 +1,29 @@
-#include <Wire.h>
-#include "MPU9150.h"
+#include <ArduinoHardware.h>
 #include <ros.h>
 #include <arvp_msgs/IMU.h> //this is the template for the custom IMU message
 
+ 
+ros::NodeHandle nh;
 arvp_msgs::IMU imu; ///here I declare an object imu, which is a continer that ros 
 //uses for it's message and also that I can put the data in. 
 
-ros::NodeHandle nh;
 ros::Publisher pub("mpu1950", &imu);
 ///^ this sets up a ros publisher node. I name it mpu1950 for the name of the chip
+#include <Wire.h>
+#include "MPU1950.h"
+
+
+
 
 void setup() {
   setupMPU();
-
+  nh.initNode();
+  nh.advertise(pub);
+  
+    // Initialize the Serial Bus for printing data.
+  Serial.begin(9600);
+  //Serial.print( "hi");
+  //^for testing only
 }
 
 void loop() {
@@ -38,6 +49,7 @@ void loop() {
   
   pub.publish(&imu);
   nh.spinOnce();
-  //Serial.print( temp );
-  //Serial.print( "   "  );
+  Serial.print( imu.accel[0] );
+  Serial.print( "   "  );
 }
+
