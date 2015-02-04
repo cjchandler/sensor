@@ -39,8 +39,8 @@ bool carlOS5000::verifyLine( char line[] ){
  
  int len = strlen(line); 
  char checksum; 
- //int rv = sscanf(line+ (len-4), "*%hhx", &checksum);
- //if(rv != 1){ return false; }
+ int rv = sscanf(line+ (len-4), "*%hhx", &checksum);
+ if(rv != 1){ return false; }
  return true; 
 }; 
 
