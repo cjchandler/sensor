@@ -21,15 +21,18 @@ void setup() {
   nh.initNode();
   //sensor = new OS5000(&nh);
   nh.advertise(pub);
-  
+  Serial.begin(9600);
+  Serial1.begin(115200);
   //c.msg.heading = 1.0; 
 
 }
 
 void loop() {
+  //Serial.print("\n -- ");
   if(Serial1.available()) {
     Serial1.readBytesUntil('\r\n', line, 200);
-    //Serial.print( line);
+    Serial.print( line);
+    Serial.print("\n - ");
     //sensor -> parseLine(line, 200, &imu);
     carlOS5000 c; 
 
