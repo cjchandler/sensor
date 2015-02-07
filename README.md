@@ -15,4 +15,19 @@ Here's a detail instruction manual of how to intstall arduino on ubuntu so that 
 now use command $./arduino 
 that should start the arduino IDE or the place where you write sketches
 
-3) now go to the teensy website and download the teensyarduino
+3) now go to the teensy website and download the teensyduino, download the package. Don't try to open it with a graphic user interface. I downloaded it from the https://www.pjrc.com/teensy/td_download.html. 
+
+That will put a file named something like teensyarduino.32bit in your downloads folder. Go onto that folder on the terminal:
+$ cd ~/Downloads 
+Then you'll need to give permisions to that so that it can run the installer
+$chmod 755 teensyduino.32bit
+you might need to do sudo: 
+$sudo chmod 755 teensyduino.32bit
+Of course if you are using 64 bit change all the 32s to 64s
+Then run the installer
+$ ./teensyduino.32bit
+
+4) in the installer, you'll need to tell it where your arduino files are. If you followed this, they will be in ~/arduino-1.0.6
+You can install all the libraries, they won't hurt even if you never use them. 
+
+5) test! go back and try to do part to. If you look in examples there should be a bunch of teensy libraries. Try the blink one and it should work. 
