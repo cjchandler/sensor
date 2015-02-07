@@ -31,3 +31,4 @@ $ ./teensyduino.32bit
 You can install all the libraries, they won't hurt even if you never use them. 
 
 5) test! go back and try to do part to. If you look in examples there should be a bunch of teensy libraries. Try the blink one and it should work. 
+
