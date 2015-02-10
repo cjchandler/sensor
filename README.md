@@ -10,9 +10,12 @@ Here's a detail instruction manual of how to intstall arduino on ubuntu so that 
 
 1) download the arduino 1.0.6 from the arduino website. extract in to home folder (that's cjchandler for me or the folder that has the same name as your user name) You can eaily use the prompts that come up, there is no need to use the terminal yet. 
 
-2) now open the terminal and cd (change directory ) to arduino, probably the comand is: $cd ~/arduino-1.0.6 
+2) now open the terminal and cd (change directory ) to arduino, probably the comand is:
+<pre><code> $cd ~/arduino-1.0.6 
+</code></pre>
 
-now use command $./arduino 
+now use command 
+<pre><code>$./arduino</code></pre> 
 that should start the arduino IDE or the place where you write sketches
 
 3) now go to the teensy website and download the teensyarduino
@@ -36,30 +39,36 @@ in my .bashrc I still had to source. Perhaps there is a simple way around this
 but I haven't found it. 
 
 2) Our code has been made into ros packages with catkin, so do the tutorials with that build tool. The bare bones that you need is a cattkin workspace. You can do this ( in your home folder):
-$ mkdir -p ~/catkin_ws/src
+<pre><code>$ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/src
 $ catkin_init_workspace
+</code></pre>
 
 This is just a folder named catkin_ws in your home directory  with a /src 
 sub-directory. 
 
 3) now we need the arduino libraries
-$cd ~/catkin_ws/src
+<pre><code>$cd ~/catkin_ws/src
 $git clone https://github.com/ros-drivers/rosserial
+</code></pre>
 we need actually a different version of this git repository, so: 
-$cd ~/catkin_ws/src/rosserial
+<pre><code>$cd ~/catkin_ws/src/rosserial
 $git checkout -b tags/0.6.3
+</code></pre>
 now we can go back the workspace src.  
-$cd ~/catkin_ws/src 
+<pre><code>$cd ~/catkin_ws/src 
+</code></pre>
 we also need to put in some special message headers. This allows us to use 
 our own ros messages for the IMU and motor controllers etc. 
-$git clone https://github.com/arvpUofA/arvp_msgs.git
+<pre><code>$git clone https://github.com/arvpUofA/arvp_msgs.git
+</code></pre>
 
 Now we are finally ready to build the catkin_ws:
-$cd ~/catkin_ws
+<pre><code>$cd ~/catkin_ws
 $catkin_make
 $catkin_make install
 $source ~/catkin_ws/install/setup.bash
+</code></pre>
 
 Now that this last line "source ..." needs to be put in every time you open 
 a new terminal tab or window 
@@ -70,19 +79,21 @@ instructions from me on installing that for teensy in your home directory
 you will have a directory called /sketchbook or /Arduino . 
 if you have both, you probably have two different versions of arduino IDE installed on the same machine, and do the following steps for both.
 
-$cd ~/Arduino/libraries 
+<pre><code>$cd ~/Arduino/libraries
+</code></pre> 
 or depending on the name you happen to have 
-$cd ~/sketchbook/libraries
-
+<pre><code>$cd ~/sketchbook/libraries
 $rm -rf ros_lib
 $rosrun rosserial_arduino make_libraries.py .
+</code></pre>
 
 5) That should be everything you need installed. To test it, open the arduino IDE and in the examples there should be a ros_lib section and in that a helloworld example. Open that, and run it with a teensy or other arduino board connected. 
 
 To make sure it's working follow the directions here: http://wiki.ros.org/rosserial_arduino/Tutorials/Hello%20World
 
 Remember that when you open a new terminal, you'll need to 
-$source ~/catkin_ws/install/setup.bash
+<pre><code>$source ~/catkin_ws/install/setup.bash
+</code></pre>
 
 You may also run into an error message while using an arduino DUE that looks something like "cannot convert Serial to Serial1" 
 We solved this by opening the offending header file and changing Serial1 in that file to Serial. This is probably not the best way to do it, but it worked for us. 
